@@ -1,0 +1,11 @@
+{
+	"_comment_projects_rootdir" : "specify a root level directory that contains node projects below it.  Will traverse each sub directory until it finds FIRST package.json",
+	"projects_rootdir" : "../", 
+
+	"_comment_projects" : "specify any specific individual project directories you would like to be selectable in the app, path relative to the npmlpb app",
+	"projects" : [				 
+				   {"name" : "npmapi", "path": "node_modules/npmapi/"},
+				   {"name" : "MD5", "path": "node_modules/npmapi/node_modules/MD5/"}
+				 ]
+	
+}

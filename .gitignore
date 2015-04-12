@@ -1,0 +1,13 @@
+ui/assets/
+less-tmp/
+node_modules/
+coverage/
+.build/
+.idea/
+*.log
+*.jpg-*
+.DS_Store
+.project
+.monitor
+doc
+docs
