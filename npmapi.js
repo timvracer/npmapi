@@ -44,6 +44,9 @@ var MD5 = require('MD5');
 // INIT FUNCTIONS - BOOTSTRAPPING
 //
 
+var LOGGER = null;
+setLogger(function(msg) {console.log(msg)});
+
 var CONFIG_OBJ = {};  // cache to hold the current projects list, defined by npmlpb.json
 
 // So we can rewire the module, we call this directly from the test to initialize the module (not on load)
@@ -69,6 +72,23 @@ function readConfigFile(cb) {
 			process.nextTick(function(){cb("npmlpb.json does not exist", null)});
 		}
 	});
+}
+
+//---------------------------------------------------------------------------------
+// logging funciton
+//
+function logger(msg) {
+	if (exists(LOGGER)) {
+		LOGGER(msg);
+	} else {
+		console.log (msg);
+	}	
+}
+//---------------------------------------------------------------------------------
+// configure logger
+//
+function setLogger(cb) {
+	LOGGER = cb;
 }
 
 //---------------------------------------------------------------------------------
@@ -199,7 +219,7 @@ function getModuleList(pid, cb) {
 	// This will always return a valid object, validates pid, returns default object if invalid
 	projObj = mapPidToObject(pid);
 
-	console.log ("Loading Module List for project index:" + pid);
+	logger ("Loading Module List for project index:" + pid);
 
 
 	// in order to build the dependency tree recursively
@@ -498,12 +518,12 @@ function getNpmInfo(qobj, cb) {
 
 		pkgs = [decodeURIComponent(qobj.npmmod)];
 		pkgsSave = pkgs;
-		console.log ("GET DATA FOR : " + pkgs);
+		logger ("GET DATA FOR : " + pkgs);
 
 		npm.load(function(err,npm) {
 		    npm.commands.view(pkgs, true, function(err, data) {
 			    if (err) {
-			    	console.log ("Error retrieving data from npmjs.org");
+			    	logger ("Error retrieving data from npmjs.org");
 			    	process.nextTick(function(){cb({'error' : "ERROR retrieving info for " + pkgs[0]}, null)});
 			    	return;
 			    } else {
@@ -573,9 +593,9 @@ function processPJsonReadme (finalPath, objJson, cb) {
 	} else  { 
 		readmeFilename = finalPath + "README.md";
 	}
-	console.log ("readmeFilename = " + readmeFilename);
-	console.log ("finalPath = " + finalPath);
-	console.log ("obj.readmeFilename = " + objJson.readmeFilename);
+	logger ("readmeFilename = " + readmeFilename);
+	logger ("finalPath = " + finalPath);
+	logger ("obj.readmeFilename = " + objJson.readmeFilename);
 
 	// If the README file is defined, but not included in the JSON object, then retrieve it
 	//
@@ -621,4 +641,5 @@ module.exports.getProjectList = getProjectList;
 module.exports.getModuleList = getModuleList;
 module.exports.getNpmInfo = getNpmInfo;
 module.exports.initConfig = initConfig;
+module.exports.setLogger = setLogger;
 
