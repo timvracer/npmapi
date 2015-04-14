@@ -55,22 +55,18 @@ if (process.env.NODE_ENV != "test") {
 function exists(a) {return (a!==undefined && a!==null)}
 
 function readConfigFile(cb) {
-	_readConfigFile(cb);
-}
-
-function _readConfigFile(cb) {
 
 	fs.exists("./npmlpb.json", function(doesExist) {
 		if (doesExist) {
 			jsonfile.readFile("./npmlpb.json", function(err, obj) {
 				if (err) {
-					cb("error reading npmlpb.json", null);
+					process.nextTick(function(){cb("error reading npmlpb.json", null)});
 				} else {
-					cb(null, obj);
+					process.nextTick(function(){cb(null, obj)});
 				}	
 			});	
 		} else {
-			cb("npmlpb.json does not exist", null);
+			process.nextTick(function(){cb("npmlpb.json does not exist", null)});
 		}
 	});
 }
@@ -86,15 +82,15 @@ function initConfig(cb) {
 	readConfigFile(function(err, dataObj) {
 		if (err) {
 			CONFIG_OBJ = {};
-			cb("error reading npmlpb.json", null);
+			process.nextTick(function(){cb("error reading npmlpb.json", null)});
 		} else {
 			CONFIG_OBJ = dataObj;
 			getProjectListFromRoot(CONFIG_OBJ, function(err) {
 				if (err) {
-					cb(err, null);
+					process.nextTick(function(){cb(err, null)});
 				} else {
 					assignIds(CONFIG_OBJ);
-					cb(null, CONFIG_OBJ.projects);
+					process.nextTick(function(){cb(null, CONFIG_OBJ.projects)});
 				}	
 			});
 		}	
@@ -119,7 +115,7 @@ function assignIds(configObj) {
 
 
 function getProjectList(cb) {
-	cb(null, CONFIG_OBJ.projects);
+	process.nextTick(function(){cb(null, CONFIG_OBJ.projects)});
 }
 
 //---------------------------------------------------------------------------------
@@ -139,7 +135,7 @@ function getProjectListFromRoot(configObj, cb) {
 			if (fileArr && fileArr.length > 0) {
 
 				projArr = configObj.projects;
-				if (projArr===undefined || projArr===null) {
+				if (!exists(projArr)) {
 					projArr = [];
 				}	
 				_.reduce(fileArr, function(memo, num){
@@ -216,7 +212,7 @@ function getModuleList(pid, cb) {
 	jsonfile.readFile(projPath+'package.json', function(err, packageJson) {
 	
 		if (err) {
-			cb (err, null);
+			process.nextTick(function(){cb (err, null)});
 			return;
 		}
 
