@@ -10,7 +10,7 @@ multiple projects and project directories outside of the current server director
 directory as well as specific project directories you are interested in browsing via the API.  The basic functions
 are as follows:
 
-###initConfig
+### initConfig
 
 Forces a read (or re-read) of the projects list as specified by npmlpb.json.  This caches the results, and the
 cached results are returned when getProjectList is called.  
@@ -22,7 +22,7 @@ Returns an array of objects (see **getProjectList** below)
 initConfig(function(plist){});
 ```
 
-###getProjectList
+### getProjectList
 
 Returns an array of all enumerated projects that are found based on settings
 in the **npmlpb.json** config file in the project directory.  uid refers to the project ID that
@@ -49,7 +49,7 @@ Returns an array of objects in the form of:
 getProjectList(function(err, retObj) {};)
 ```
 
-###getModuleList
+### getModuleList
 Get the list of modules found in the project structure for the project specified by uid.  Returns an object of the form:
 ```
 {
@@ -83,7 +83,7 @@ getModuleList(uid, function(err, retObj) {};)
 be decycled if you want to convert to JSON.  See the npm module "cycle.js" for more**
 
 
-###getNpmInfo
+### getNpmInfo
 
 Gets detailed information (package.json) about the specific package specified in the dependency tree.  If a path to the
 specific module is not provided, then information is retrieved from npmjs.org (npm view).  At least one of the
@@ -106,7 +106,7 @@ getNpmInfo(uid, npmmod, modpath, function(err, retObj) {})
 Returns the package.json object with the readme populated as specified above
 
 
-###npmlpb.json configuration file
+### npmlpb.json configuration file
 
 Config file used for specifying scannable projects, or your root project directory (will scan all sub-directories)
 A sample file npmlpb.json is included in the install package
