@@ -52,7 +52,12 @@ var CONFIG_OBJ = {};  // cache to hold the current projects list, defined by npm
 // So we can rewire the module, we call this directly from the test to initialize the module (not on load)
 //
 if (process.env.NODE_ENV != "test") {
-	initConfig(function(){});
+	initConfig(function(err, obj){
+		if (err) {
+			logger(err);
+			process.exit(1);
+		}
+	});
 }
 // helper function - to copy the coffee script existenstial operator
 function exists(a) {return (a!==undefined && a!==null)}

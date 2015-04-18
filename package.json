@@ -1,6 +1,6 @@
 {
   "name": "npmapi",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "API to retrieve npm module dependency information for projects on the local server.  Excellent for 'browsing' local projects",
   "main": "npmapi.js",
   "dependencies": {
